@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/service-defaults/">
+    <Project Path="service-defaults/GymAlternatief.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/services/" />
+  <Folder Name="/services/api/">
+    <Project Path="services/api/GymAlternatief.Api.csproj" />
+  </Folder>
+  <Folder Name="/services/migrations/">
+    <Project Path="services/migrations/GymAlternatief.Migrations.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/api-tests/">
+    <Project Path="tests/api-tests/GymAlternatief.Api.Tests.csproj" />
+  </Folder>
+</Solution>

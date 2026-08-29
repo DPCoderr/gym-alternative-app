@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: dotnet restore GymAlternatief.slnx
+      - run: dotnet build GymAlternatief.slnx --no-restore
+      - run: dotnet test GymAlternatief.slnx --no-build --no-restore
+      - run: npm run build:web
+      - run: npm run lint:web
+      - run: npm run test:web
+      - run: npx markdownlint-cli2
+      - run: npm audit --omit=dev

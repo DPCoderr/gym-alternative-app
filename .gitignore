@@ -1,0 +1,29 @@
+# .NET
+**/bin/
+**/obj/
+*.user
+*.suo
+
+# Node
+node_modules/
+**/dist/
+**/coverage/
+playwright-report/
+test-results/
+
+# Aspire and local configuration
+.aspire/
+*.user.json
+.env
+.env.*
+!.env.example
+
+# IDE and OS
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
