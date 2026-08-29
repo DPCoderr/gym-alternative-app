@@ -1,7 +1,7 @@
 # Frontend rules
 
 - Build mobile-first with semantic HTML and a WCAG 2.2 AA baseline.
-- Use React Router for routes, TanStack Query for server state, React Hook Form plus Zod for forms, and Tailwind plus shadcn/ui for UI primitives.
+- Use TanStack Router for type-safe routes, TanStack Query for server state, React Hook Form plus Zod for forms, and Tailwind plus shadcn/ui for UI primitives.
 - Never replace the search input value with a suggestion unless the user explicitly selects it.
 - Start suggestions after two characters, debounce 300 ms, and show at most eight.
 - Cancel stale search requests and never let an older response overwrite the newest query.
