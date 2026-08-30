@@ -1,3 +1,4 @@
+using GymAlternatief.Api.Infrastructure.Persistence;
 using GymAlternatief.ServiceDefaults;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
@@ -5,7 +6,7 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddNpgsqlDataSource("gymalternatief");
+builder.AddNpgsqlDbContext<AppDbContext>("gymalternatief");
 builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
