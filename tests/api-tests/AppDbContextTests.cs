@@ -146,13 +146,14 @@ public sealed class AppDbContextPostgreSqlTests : IAsyncLifetime
         entity.CreatedAt = DateTime.SpecifyKind(entity.CreatedAt, DateTimeKind.Local);
         context.Entities.Add(entity);
 
-        var exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        var exception = await Record.ExceptionAsync(
             () => context.SaveChangesAsync());
 
+        Assert.NotNull(exception);
         Assert.Contains(
-            $"{nameof(ConventionEntity)}.{nameof(ConventionEntity.CreatedAt)}",
-            exception.Message,
-            StringComparison.Ordinal);
+            "UTC",
+            exception.ToString(),
+            StringComparison.OrdinalIgnoreCase);
     }
 
     private static ConventionDbContext CreateContext(string connectionString)
@@ -177,26 +178,33 @@ public sealed class AppDbContextPostgreSqlTests : IAsyncLifetime
 }
 
 internal sealed class ConventionDbContext(
-    DbContextOptions<ConventionDbContext> options) : AppDbContext(options)
+    DbContextOptions<ConventionDbContext> options) : DbContext(options)
 {
     public DbSet<ConventionEntity> Entities => Set<ConventionEntity>();
 
-    protected override void ConfigureEntities(ModelBuilder modelBuilder)
+    protected override void ConfigureConventions(
+        ModelConfigurationBuilder configurationBuilder)
     {
+        base.ConfigureConventions(configurationBuilder);
+        configurationBuilder.ConfigurePostgresTypes();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<ConventionEntity>(entity =>
         {
             entity.ToTable("convention_entities");
             entity.Property(item => item.Name)
                 .HasMaxLength(100)
                 .IsRequired();
+            entity.Property(item => item.Version)
+                .IsPostgresConcurrencyToken();
         });
     }
 }
 
-internal sealed class ConventionEntity :
-    IHasUuidPrimaryKey,
-    IHasUtcTimestamps,
-    IHasPostgresConcurrencyToken
+internal sealed class ConventionEntity
 {
     public Guid Id { get; set; }
 

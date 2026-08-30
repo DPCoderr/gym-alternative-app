@@ -16,18 +16,19 @@ the same named connection string for Neon.
 Use one `AppDbContext` registered through Aspire's PostgreSQL EF Core client integration with the
 connection name `gymalternatief`.
 
-Persistent entities opt into shared marker interfaces for a UUID primary key, UTC audit timestamps,
-and an opaque PostgreSQL concurrency token. The concurrency token is a `uint` row version that Npgsql
-maps to PostgreSQL's system `xmin` column. All `DateTime` and `DateTimeOffset` properties map to
-`timestamp with time zone`; writes reject values that are not UTC.
+Shared pre-conventions map `Guid` properties to `uuid` and `DateTime` properties to
+`timestamp with time zone`. EF Core's normal `Id` naming convention remains responsible for primary
+key discovery. Admin-managed entities explicitly configure a `uint` version property with
+`IsPostgresConcurrencyToken()`, which Npgsql maps to PostgreSQL's system `xmin` column. Npgsql rejects
+non-UTC `DateTime` values written to `timestamp with time zone`.
 
 The API never creates, migrates, or seeds the database during startup. Schema migrations remain an
 explicit responsibility of `services/migrations`.
 
 ## Consequences
 
-- New feature entities reuse the same key, timestamp, and concurrency behavior without duplicating
-  provider configuration.
+- New feature entities inherit the UUID and timestamp mappings automatically and opt into
+  concurrency explicitly in their focused entity configuration.
 - Admin update contracts must expose the concurrency value as an opaque token rather than leaking
   PostgreSQL's `xmin` representation.
 - Code that persists timestamps must supply UTC values; date-only concepts use `DateOnly` instead.
