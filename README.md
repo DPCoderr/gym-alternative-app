@@ -7,7 +7,7 @@ Deze eerste foundation bevat de monorepo, lokale Aspire-orchestratie, PostgreSQL
 ## Stack
 
 - `apps/web`: React 19, Vite, TypeScript, React Router, TanStack Query, React Hook Form, Zod, Tailwind CSS en shadcn/ui.
-- `services/api`: ASP.NET Core 10, EF Core, Npgsql, Identity- en JWT-packages.
+- `services/api`: ASP.NET Core 10, EF Core, Npgsql, Identity, JWT, OpenAPI en Scalar.
 - `services/migrations`: aparte productiemigratietool; migrations draaien niet tijdens API-startup.
 - `service-defaults`: health checks, service discovery, HTTP resilience en OpenTelemetry.
 - `apphost.cs`: Aspire 13.4.6 voor uitsluitend lokale orchestration.
@@ -26,7 +26,9 @@ aspire wait api --non-interactive
 aspire wait web --non-interactive
 ```
 
-Gebruik `aspire describe --non-interactive` om de actuele lokale endpoints te zien. Stop de omgeving met:
+Gebruik `aspire describe --non-interactive` om het actuele API-endpoint te vinden. Open tijdens
+development `/scalar` op dat API-adres voor de interactieve API-documentatie; het gegenereerde
+OpenAPI-document staat op `/openapi/v1.json`. Stop de omgeving met:
 
 ```powershell
 aspire stop --non-interactive
