@@ -18,3 +18,4 @@ Rules:
 - [Frontend](docs/rules/frontend.md)
 - [Content and media](docs/rules/content-and-media.md)
 - [Testing](docs/rules/testing.md)
+- [Delivery and pull requests](docs/rules/delivery.md)
