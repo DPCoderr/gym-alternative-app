@@ -1,3 +1,9 @@
+## Pull request title
+
+Use the Conventional Commits format: `<type>(<optional scope>): <imperative summary>`.
+For example: `feat(persistence): add PostgreSQL AppDbContext conventions`.
+Do not use only a ticket identifier or copy the ticket title as the pull request title.
+
 ## Result
 
 - Ticket:
