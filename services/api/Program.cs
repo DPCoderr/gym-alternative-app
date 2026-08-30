@@ -1,11 +1,13 @@
 using GymAlternatief.ServiceDefaults;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.AddNpgsqlDataSource("gymalternatief");
 builder.Services.AddProblemDetails();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
@@ -20,6 +22,18 @@ app.MapHealthChecks("/health/ready", new HealthCheckOptions
 {
     Predicate = registration => !registration.Tags.Contains("live"),
 });
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi()
+        .AllowAnonymous();
+
+    app.MapScalarApiReference(options =>
+        {
+            options.WithTitle("GymAlternatief API");
+        })
+        .AllowAnonymous();
+}
 
 app.MapGet("/", () => Results.Ok(new
 {
