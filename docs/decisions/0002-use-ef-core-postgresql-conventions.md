@@ -22,6 +22,14 @@ key discovery. Admin-managed entities explicitly configure a `uint` version prop
 `IsPostgresConcurrencyToken()`, which Npgsql maps to PostgreSQL's system `xmin` column. Npgsql rejects
 non-UTC `DateTime` values written to `timestamp with time zone`.
 
+### What the concurrency version protects
+
+The concurrency version belongs to one database record. It is not the PostgreSQL software version
+and is unrelated to Git version control. For example, two admins can open the same equipment record
+with version `10`. After the first admin saves, PostgreSQL changes that record's version. The second
+admin can no longer save the stale version `10`; EF Core reports a concurrency conflict instead of
+silently overwriting the first admin's change.
+
 The API never creates, migrates, or seeds the database during startup. Schema migrations remain an
 explicit responsibility of `services/migrations`.
 
