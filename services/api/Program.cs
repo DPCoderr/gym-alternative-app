@@ -1,3 +1,5 @@
+using GymAlternatief.Api.Features;
+using GymAlternatief.Api.Infrastructure.Http;
 using GymAlternatief.ServiceDefaults;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
@@ -6,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.AddNpgsqlDataSource("gymalternatief");
-builder.Services.AddProblemDetails();
+builder.Services.AddApiProblemDetails();
+builder.Services.AddApiFeatures();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -40,6 +43,8 @@ app.MapGet("/", () => Results.Ok(new
     service = "GymAlternatief API",
     status = "foundation-ready",
 }));
+
+app.MapApiFeatures();
 
 app.Run();
 
