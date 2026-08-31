@@ -3,6 +3,7 @@
 Read the relevant file in `docs/rules/` before changing that area.
 
 - UI copy is Dutch; code, database identifiers, routes, and API contracts are English.
+- Keep changes KISS: implement the simplest design that satisfies current requirements. Do not add abstractions, validation, or extensibility for hypothetical future needs.
 - Keep the backend a feature-based modular monolith. Do not introduce MediatR or split services without an accepted architecture decision.
 - Aspire is local orchestration only. Start the AppHost with `aspire start --non-interactive`; never deploy the AppHost.
 - Do not run database migrations during API startup. Production migrations run through `services/migrations` before deployment.
