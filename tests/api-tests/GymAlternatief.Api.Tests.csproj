@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\services\api\GymAlternatief.Api.csproj" />
+    <ProjectReference Include="..\..\services\migrations\GymAlternatief.Migrations.csproj" />
   </ItemGroup>
 
 </Project>
