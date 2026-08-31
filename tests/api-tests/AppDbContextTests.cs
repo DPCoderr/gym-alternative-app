@@ -1,11 +1,11 @@
 using GymAlternatief.Api.Infrastructure.Persistence;
+using GymAlternatief.Api.Tests.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Testcontainers.PostgreSql;
 
 namespace GymAlternatief.Api.Tests;
 
@@ -58,26 +58,14 @@ public sealed class AppDbContextModelTests
     }
 }
 
-public sealed class AppDbContextPostgreSqlTests : IAsyncLifetime
+[Collection(PostgreSqlIntegrationTestGroup.Name)]
+public sealed class AppDbContextPostgreSqlTests(
+    PostgreSqlDatabaseFixture database)
 {
-    private readonly PostgreSqlContainer _database = new PostgreSqlBuilder(
-        "postgres:18-alpine")
-        .Build();
-
-    public Task InitializeAsync()
-    {
-        return _database.StartAsync();
-    }
-
-    public Task DisposeAsync()
-    {
-        return _database.DisposeAsync().AsTask();
-    }
-
     [Fact]
     public async Task ApiConnectsWithoutMigratingAndPostgresConventionsWork()
     {
-        var connectionString = _database.GetConnectionString();
+        var connectionString = await database.CreateDatabaseAsync();
 
         await AssertApiConnectsWithoutMigrationHistory(connectionString);
         await AssertUuidGenerationAndOptimisticConcurrency(connectionString);
