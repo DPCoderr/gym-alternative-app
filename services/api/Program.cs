@@ -11,12 +11,29 @@ builder.AddServiceDefaults();
 builder.AddNpgsqlDbContext<AppDbContext>("gymalternatief");
 builder.Services.AddProblemDetails();
 builder.Services.AddApiProblemDetails();
+builder.Services
+    .AddOptions<ApiCorsOptions>()
+    .BindConfiguration(ApiCorsOptions.SectionName)
+    .Validate(
+        options => options.AllowedOrigins is { Length: > 0 },
+        "At least one CORS origin must be configured.")
+    .ValidateOnStart();
+var allowedOrigins = builder.Configuration
+    .GetSection($"{ApiCorsOptions.SectionName}:AllowedOrigins")
+    .Get<string[]>() ?? [];
+builder.Services.AddCors(options => options.AddPolicy(
+    ApiCorsOptions.PolicyName,
+    policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod()));
 builder.Services.AddApiFeatures();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 app.UseExceptionHandler();
+app.UseCors(ApiCorsOptions.PolicyName);
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {

@@ -52,6 +52,11 @@ public sealed class ApiDocumentationTests
                 builder.UseSetting(
                     "ConnectionStrings:gymalternatief",
                     TestConnectionString);
+                builder.UseSetting(
+                    "Cors:AllowedOrigins:0",
+                    environment == Environments.Development
+                        ? "http://localhost:5173"
+                        : "https://app.example.nl");
             });
     }
 }
