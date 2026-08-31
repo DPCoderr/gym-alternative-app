@@ -1,3 +1,4 @@
+using GymAlternatief.Api.Infrastructure.Persistence;
 using GymAlternatief.Api.Features;
 using GymAlternatief.Api.Infrastructure.Http;
 using GymAlternatief.ServiceDefaults;
@@ -7,7 +8,8 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
-builder.AddNpgsqlDataSource("gymalternatief");
+builder.AddNpgsqlDbContext<AppDbContext>("gymalternatief");
+builder.Services.AddProblemDetails();
 builder.Services.AddApiProblemDetails();
 builder.Services.AddApiFeatures();
 builder.Services.AddOpenApi();
