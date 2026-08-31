@@ -13,4 +13,5 @@
   <Folder Name="/tests/api-tests/">
     <Project Path="tests/api-tests/GymAlternatief.Api.Tests.csproj" />
   </Folder>
+  <Folder Name="/tests/migrations-tests/" />
 </Solution>
