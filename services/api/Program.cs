@@ -11,12 +11,14 @@ builder.AddServiceDefaults();
 builder.AddNpgsqlDbContext<AppDbContext>("gymalternatief");
 builder.Services.AddProblemDetails();
 builder.Services.AddApiProblemDetails();
+builder.Services.AddApiCors(builder.Configuration);
 builder.Services.AddApiFeatures();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 app.UseExceptionHandler();
+app.UseCors(ApiCorsPolicy.Frontend);
 
 app.MapHealthChecks("/health/live", new HealthCheckOptions
 {
