@@ -29,10 +29,24 @@ steps in one ticket and explain the necessary scope in the pull request.
 
 Use the repository pull request template to record:
 
+- a concise summary of what was implemented and the user-visible or technical outcome;
+- every created, updated, moved, or deleted file, grouped when appropriate, including what changed
+  and why it was necessary;
 - the ticket and completed outcome;
 - the relevant automated and manual verification;
 - documentation or architecture impact;
+- known risks, limitations, follow-up work, or an explicit statement that there are none;
 - parent, adjacent items, and dependencies when the pull request belongs to a stack.
+
+The pull request description must explain the delivered code to a reviewer who has not followed the
+implementation conversation. Do not submit a description that contains only checkboxes, ticket
+references, commit messages, or a restatement of the ticket. Keep the summary short, but make the
+file overview specific enough to explain each file's responsibility in the change. Group files only
+when they received the same kind of change for the same reason, such as generated migration files or
+matching test fixtures.
+
+Before opening or updating the pull request, compare its description with the final diff so the file
+overview includes all changed files and does not describe changes that are no longer present.
 
 The stack fields are optional for an ordinary pull request. CI and review must never reject a pull
 request solely because of the number of changed lines or files.

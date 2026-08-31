@@ -10,6 +10,20 @@ Do not use only a ticket identifier or copy the ticket title as the pull request
 - What coherent outcome does this pull request complete?
 - Why is this the appropriate scope?
 
+## Summary
+
+<!-- Briefly explain what was implemented and its user-visible or technical effect. The description
+must allow a reviewer to understand the delivered code without the implementation conversation. -->
+
+## Changed files
+
+<!-- Include every created, updated, moved, or deleted file. Files may be grouped only when the same
+change was made for the same reason, for example generated migration files or matching fixtures. -->
+
+| File(s) | Change | Why |
+| --- | --- | --- |
+| `path/to/file` | What was added or changed | Why this change was needed |
+
 ## Verification
 
 - [ ] Smallest relevant automated tests passed.
@@ -22,6 +36,13 @@ Do not use only a ticket identifier or copy the ticket title as the pull request
 - [ ] Relevant documentation is updated or no documentation change is needed.
 - [ ] Architecture decisions are recorded when required or no decision is needed.
 - Notes:
+
+## Risks and follow-up
+
+<!-- Record known risks, limitations, deferred work, or write "None". -->
+
+- Risks or limitations:
+- Follow-up work:
 
 ## Stack details
 
